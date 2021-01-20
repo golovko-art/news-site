@@ -1,14 +1,37 @@
 {% extends 'news/base.html' %}
-    {% block content %}
-        <h1>{{ title }}</h1>
-        {% for item in news %}
-        <div>
-            <p><b>{{ item.title }}</b></p>
-            <p>{{ item.content }}</p>
-            <p>{{ item.created_at|date:"Y-m-d H:i"}}</p>
+{% block content %}
+<hr>
+<div class="container mt-3">
+    <h1>{{ title }}</h1>
+    <div class="row">
+        <div class="col-md-12">
+            {% for item in news %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    Категория: {{ item.category }}
+                </div>
+                <div class="card-body">
+                    <div class="media">
+                        {% if item.photo %}
+                        <img src="{{ item.photo.url }}" alt="" class="mr-3">
+                        {% else %}
+                        <img src="media/noimage.png" alt="" class="mr-3">
+                        {% endif %}
+                        <div class="media-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">{{ item.content }}</p>
+                            <a href="#" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-muted">
+                    {{ item.created_at|date:"Y-m-d H:i"}} <!-- Фильтры почитать в доке !!! -->
+                </div>
+            </div>
+            <p></p>
+            {% endfor %}
         </div>
-        <hr>
-        {% endfor %}
-
-
-    {% endblock %}
+    </div>
+</div>
+{% endblock %}
