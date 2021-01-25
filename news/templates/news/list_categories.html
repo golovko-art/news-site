@@ -1,4 +1,5 @@
 <div class="list-group">
+    {{ arg1 }}
     <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Категории</a>
     {% for item in categories %}
     <a href="{% url 'category' item.pk %}" class="list-group-item list-group-item-action">{{ item.title }}</a>
