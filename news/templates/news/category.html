@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+
 {% for item in news %}
 <div class="card mb-3">
     <div class="card-header">
@@ -23,8 +24,8 @@
             {% endif %}
             <div class="media-body">
                 <h5 class="card-title">{{ item.title }}</h5>
-                <p class="card-text">{{ item.content }}</p>
-                <a href="#" class="btn btn-primary">Подробнее</a>
+                <p class="card-text">{{ item.content|truncatewords:50 }}</p>
+                <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
     </div>
