@@ -1,3 +1,7 @@
 body {
-    background-color: #e9ecff;
+    background-color: #ffffff;
+}
+
+.errorlist {
+    color: #ff0000;
 }
