@@ -4,27 +4,31 @@ from django.http import HttpResponse
 from .models import News, Category
 from .forms import NewsForm
 from django.urls import reverse_lazy
+from .utils import MyMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class HomeNews(ListView):
+class HomeNews(MyMixin, ListView):
     """ С помощью ListView получаем список объктов для какой-то страницы """
     model = News
     template_name = 'news/index.html'
     context_object_name = 'news'
+    mixin_prop = 'Hello upper'
 
     """ Использовать только для статичных данных (не для списоков и не для динамичных данных)"""
     # extra_context = {'title': 'Новости'}
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
+        context['title'] = self.get_upper('Главная страница')
+        context['mixin_prop'] = self.get_prop()
         return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).select_related('category')
 
 
-class NewsCategory(ListView):
+class NewsCategory(MyMixin, ListView):
     model = News
     template_name = 'news/index.html'
     context_object_name = 'news'
@@ -32,11 +36,11 @@ class NewsCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = Category.objects.get(pk=self.kwargs['category_id'])
+        context['title'] = self.get_upper(Category.objects.get(pk=self.kwargs['category_id']))
         return context
 
     def get_queryset(self):
-        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True).select_related('category')
 
 
 class ViewNews(DetailView):
@@ -45,10 +49,12 @@ class ViewNews(DetailView):
     context_object_name = 'news_item'
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # success_url = reverse_lazy('index')
+    login_url = '/admin/'
+    # raise_exception = True
 
 # def index(request):
 #     news = News.objects.all()
