@@ -20,9 +20,9 @@
     <div class="card-body">
         <div class="media">
             {% if item.photo %}
-            <img src="{{ item.photo.url }}" alt="" class="mr-3">
+                <img src="{{ item.photo.url }}" alt="" class="mr-3">
             {% else %}
-            <img src="media/noimage.png" alt="" class="mr-3">
+                <img src="media/noimage.png" alt="" class="mr-3">
             {% endif %}
             <div class="media-body">
                 <h5 class="card-title">{{ item.title }}</h5>

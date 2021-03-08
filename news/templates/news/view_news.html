@@ -16,9 +16,9 @@
     </div>
     <div class="card-body">
         {% if news_item.photo %}
-        <img src="{{ news_item.photo.url }}" alt="" class="float-left mr-3">
+            <img src="{{ news_item.photo.url }}" alt="" class="float-left mr-3">
         {% else %}
-        <img src="media/noimage.png" alt="" class="float-left mr-3">
+            <img src="media/noimage.png" alt="" class="float-left mr-3">
         {% endif %}
         <h5 class="card-title">{{ news_item.title }}</h5>
         <p class="card-text">{{ news_item.content }}</p>
